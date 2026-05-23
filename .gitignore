@@ -1,0 +1,33 @@
+# GoW Skeleton .gitignore
+
+# Go
+go.sum
+vendor/
+
+# Environment
+.env
+.env.local
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+gow
+gow.exe
+
+# Temporary
+*.log
+tmp/
+temp/

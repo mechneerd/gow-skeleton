@@ -1,0 +1,7 @@
+module {{ .ModulePath }}
+
+go 1.22
+
+require (
+	github.com/mechneerd/gow v0.1.0
+)
