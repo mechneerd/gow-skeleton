@@ -1,9 +1,13 @@
 package Models
 
-import "{{ .ModulePath }}/database/orm"
+import (
+	"{{ .ModulePath }}/auth/rbac"
+	"{{ .ModulePath }}/database/orm"
+)
 
 type User struct {
 	orm.Model
+	rbac.HasRoles
 	Name     string
 	Username string
 	Email    string

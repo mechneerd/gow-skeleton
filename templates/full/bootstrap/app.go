@@ -25,6 +25,14 @@ func (a *Application) Serve() {
 	routes.RegisterRoutes()
 	routes.RegisterAPIRoutes()
 
+	// Recommended one-time setup for RBAC:
+	// import "yourmodule/auth/rbac"
+	// rbac.SetDefaultDB(yourDB)
+
+	// Example middleware usage:
+	// import "yourmodule/http/middleware"
+	// http.Handle("/admin", middleware.RoleMiddleware("Super Admin")(adminHandler))
+
 	addr := ":" + a.Config.Port
 	fmt.Printf("%s (Full Starter) is running on http://localhost%s\n", a.Config.AppName, addr)
 	log.Fatal(http.ListenAndServe(addr, nil))

@@ -23,6 +23,15 @@ func NewApplication() *Application {
 // Serve starts the server with auth routes already registered.
 func (a *Application) Serve() {
 	// Routes are registered in main.go before calling Serve
+
+	// Recommended: Set up RBAC DB connection here (after opening your DB)
+	// import "yourmodule/auth/rbac"
+	// rbac.SetDefaultDB(yourDB)
+
+	// Example protected route registration (uncomment and adjust as needed):
+	// import "yourmodule/http/middleware"
+	// http.Handle("/admin", middleware.RoleMiddleware("Super Admin")(yourHandler))
+
 	addr := ":" + a.Config.Port
 	fmt.Printf("%s (with Auth + RBAC) is running on http://localhost%s\n", a.Config.AppName, addr)
 	log.Fatal(http.ListenAndServe(addr, nil))

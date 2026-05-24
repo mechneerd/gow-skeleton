@@ -9,6 +9,3 @@ type Role struct {
 }
 
 func (Role) TableName() string { return "roles" }
-
-func (r *Role) AttachPermission(p Permission) {}
-func (r *Role) AttachUser(u *User)            {}

@@ -20,17 +20,29 @@ This is the recommended starter kit when you need full authentication with Role-
 ## Getting Started
 
 ```bash
-# 1. Run the application
+# 1. Run migrations (creates all auth + RBAC tables)
+gow migrate
+
+# 2. Seed the database (creates Super Admin + default roles/permissions)
+gow db:seed
+
+# 3. Run the application
 go run main.go
 # or
 gow serve
-
-# 2. Run migrations (creates all auth + RBAC tables)
-gow migrate
-
-# 3. Seed the database (creates Super Admin + default roles/permissions)
-gow db:seed
 ```
+
+### One-time RBAC Setup (Recommended)
+
+After opening your database connection (usually in `main.go` or `bootstrap/app.go`):
+
+```go
+import "yourmodule/auth/rbac"
+
+rbac.SetDefaultDB(db)
+```
+
+This enables `user.HasRole()` and `user.Can()` everywhere.
 
 ## Default Super Admin Account
 
