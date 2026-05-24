@@ -29,6 +29,11 @@ func (a *Application) Serve() {
 	// import "yourmodule/auth/rbac"
 	// rbac.SetDefaultDB(yourDB)
 
+	// View engine + Livewire are already wired in routes.
+	// You can access the view engine globally if needed:
+	// import "yourmodule/routes"
+	// html, _ := routes.ViewEngine.Make("some.view", data)
+
 	// Example middleware usage:
 	// import "yourmodule/http/middleware"
 	// http.Handle("/admin", middleware.RoleMiddleware("Super Admin")(adminHandler))

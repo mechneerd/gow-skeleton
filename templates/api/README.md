@@ -18,3 +18,15 @@ Recommended commands:
 - `gow make:model Post --migration`
 - `gow make:request StorePostRequest`
 - `gow migrate`
+
+### New in this starter
+
+- Modern API-focused landing page at `/` (still beautiful, but API-oriented)
+- GoW Livewire included (great for admin dashboards or internal tools)
+- Use `gow make:view` for any web-based admin UI
+
+```bash
+gow make:view admin/dashboard
+```
+
+Generated with GoW on {{ .Year }}

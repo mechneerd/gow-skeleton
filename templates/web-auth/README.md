@@ -32,6 +32,19 @@ go run main.go
 gow serve
 ```
 
+### New in this starter
+
+- Beautiful modern landing page at `/` powered by GoBlade
+- GoW Livewire included (reactive components without reload)
+- Example Livewire Counter in `app/Livewire/Counter.go`
+
+Create new views easily:
+
+```bash
+gow make:view dashboard
+gow make:view admin/users
+```
+
 ### One-time RBAC Setup (Recommended)
 
 After opening your database connection (usually in `main.go` or `bootstrap/app.go`):

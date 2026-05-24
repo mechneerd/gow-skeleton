@@ -22,4 +22,17 @@ go run main.go
 
 Use `gow make:*` to generate models, controllers, etc.
 
+### New in this starter
+
+- **Beautiful landing page** at `/` built with GoBlade (`.goblade`)
+- **GoW Livewire** included out of the box — build reactive UI without page reloads
+- Example: `app/Livewire/Counter.go` + `resources/views/welcome.goblade`
+
+### Create new views
+
+```bash
+gow make:view dashboard          # Creates resources/views/dashboard.goblade
+gow make:view admin/users        # Creates resources/views/admin/users.goblade
+```
+
 Generated with GoW on {{ .Year }}

@@ -10,6 +10,17 @@ Pre-configured starter for building internal admin panels / dashboards.
 - Dark mode support (optional)
 
 ## Status
-**Placeholder / Planned**
+**Placeholder / Planned** (with base assets)
 
-Good for internal tools and SaaS admin dashboards.
+## What's New
+- Professional landing page at `/`
+- GoW Livewire included — perfect for building reactive admin interfaces
+- Use `gow make:view` to quickly scaffold admin pages and components
+
+Example:
+```bash
+gow make:view admin/users
+gow make:view admin/dashboard
+```
+
+Great base for internal tools and SaaS admin dashboards.

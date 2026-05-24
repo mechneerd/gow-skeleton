@@ -21,6 +21,16 @@ After seeding, a default API user is available:
 - Username: `superadmin`
 - Password: `12345678`
 
+### New in this starter
+
+- Clean API landing page at `/`
+- GoW Livewire pre-included (useful for internal admin UIs)
+- Create views easily with the new generator:
+
+```bash
+gow make:view admin/users
+```
+
 ## Environment
 
 Copy `.env.example` to `.env` and configure as needed.

@@ -9,6 +9,13 @@ Modern full-stack starter using Inertia.js + Vue 3.
 - Hybrid Blade + Vue experience
 
 ## Status
-**Placeholder / Planned**
+**Placeholder / Planned** (with base assets)
 
-Full implementation pending better Inertia.js support in GoW.
+Base GoW landing page + Livewire assets have been added.
+
+## What's New
+- Modern landing page at `/`
+- GoW Livewire ready to use
+- `gow make:view` support for quick view creation
+
+Full Inertia + Vue integration is still in progress.

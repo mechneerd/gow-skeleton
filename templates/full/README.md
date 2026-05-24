@@ -29,6 +29,18 @@ gow db:seed
 After seeding you can login as:
 - **superadmin / 12345678**
 
+### New in this starter
+
+- Rich landing page at `/` with GoBlade + Livewire demo
+- GoW Livewire fully ready for interactive features
+
+Quickly create new views:
+
+```bash
+gow make:view dashboard
+gow make:view admin/settings
+```
+
 ## Database Structure
 Same as web-auth (full RBAC + sessions + verification/reset tokens).
 

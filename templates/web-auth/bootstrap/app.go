@@ -28,6 +28,9 @@ func (a *Application) Serve() {
 	// import "yourmodule/auth/rbac"
 	// rbac.SetDefaultDB(yourDB)
 
+	// The beautiful landing page + GoW Livewire are enabled by default.
+	// View engine is initialized in routes/web.go.
+
 	// Example protected route registration (uncomment and adjust as needed):
 	// import "yourmodule/http/middleware"
 	// http.Handle("/admin", middleware.RoleMiddleware("Super Admin")(yourHandler))

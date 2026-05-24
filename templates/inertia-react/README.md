@@ -10,9 +10,16 @@ Modern full-stack starter using Inertia.js + React.
 - API routes available alongside Inertia
 
 ## Status
-**Placeholder / Planned**
+**Placeholder / Planned** (with base assets)
 
-This kit is currently a skeleton folder. Full implementation will be added when GoW has better Inertia support.
+This kit now includes the new GoW landing page + Livewire assets as a foundation.
+
+## What's New (Base Assets Added)
+- Beautiful landing page at `/` (`resources/views/welcome.goblade`)
+- GoW Livewire included (`public/js/livewire.js`)
+- Example reactive component
 
 ## When to use
 For teams that want a modern React frontend with Laravel-like backend experience in Go.
+
+**Tip:** Use `gow make:view` to create additional Inertia-compatible or Blade views.
