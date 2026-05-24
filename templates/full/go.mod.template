@@ -1,3 +1,8 @@
 module {{ .ModulePath }}
 
 go 1.22
+
+require github.com/mechneerd/gow latest
+
+// Until the first proper release (v1.0.0+), you can use a replace directive for local development:
+// replace github.com/mechneerd/gow => ../gow

@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"{{ .ModulePath }}/app/Http/Controllers/Auth"
-	"gow/routing"
-	"gow/view"
+	"github.com/mechneerd/gow/routing"
+	"github.com/mechneerd/gow/view"
 )
 
 var router *routing.Router

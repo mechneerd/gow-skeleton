@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"{{ .ModulePath }}/app/Livewire"
-	"gow/http/livewire"
-	"gow/routing"
-	"gow/view"
+	"github.com/mechneerd/gow/http/livewire"
+	"github.com/mechneerd/gow/routing"
+	"github.com/mechneerd/gow/view"
 )
 
 var router *routing.Router
