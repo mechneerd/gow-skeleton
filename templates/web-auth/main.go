@@ -1,12 +1,15 @@
 package main
 
 import (
-	"fmt"
-	"github.com/mechneerd/gow/bootstrap"
+	"{{ .ModulePath }}/bootstrap"
+	"{{ .ModulePath }}/routes"
 )
 
 func main() {
+	// Register routes (web + API)
+	routes.RegisterWebRoutes()
+	routes.RegisterAPIRoutes()
+
 	app := bootstrap.NewApplication()
-	fmt.Println("{{ .AppName }} is running!")
 	app.Serve()
 }

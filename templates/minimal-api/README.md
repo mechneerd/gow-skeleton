@@ -2,7 +2,7 @@
 
 Ultra-light API-only starter for GoW.
 
-**Status**: ✅ Ready
+**Status**: ✅ Ready (with basic Auth support)
 
 ## Getting Started
 
@@ -10,13 +10,20 @@ Ultra-light API-only starter for GoW.
 go run main.go
 ```
 
+## Database Setup
+
+```bash
+gow migrate
+gow db:seed
+```
+
+After seeding, a default API user is available:
+- Username: `superadmin`
+- Password: `12345678`
+
 ## Environment
 
 Copy `.env.example` to `.env` and configure as needed.
-
-```bash
-go run main.go
-```
 
 ## Structure
 

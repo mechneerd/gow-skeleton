@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"{{ .ModulePath }}/config"
+	"{{ .ModulePath }}/routes"
 )
 
 // Application holds the web-auth application state.
@@ -19,9 +20,10 @@ func NewApplication() *Application {
 	return &Application{Config: cfg}
 }
 
-// Serve starts the server.
+// Serve starts the server with auth routes already registered.
 func (a *Application) Serve() {
+	// Routes are registered in main.go before calling Serve
 	addr := ":" + a.Config.Port
-	fmt.Printf("%s (with Auth) is running on http://localhost%s\n", a.Config.AppName, addr)
+	fmt.Printf("%s (with Auth + RBAC) is running on http://localhost%s\n", a.Config.AppName, addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
 }

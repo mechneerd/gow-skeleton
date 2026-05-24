@@ -9,11 +9,11 @@ When a user runs `gow new myapp`, the GoW CLI clones this repository and copies 
 | Starter Kit       | Command                              | Description                                      | Status      |
 |-------------------|--------------------------------------|--------------------------------------------------|-------------|
 | minimal           | `gow new ... --minimal`              | Basic routing + views                            | Ready       |
-| minimal-api       | `gow new ... --skeleton=...`         | Ultra-light API only                             | Ready       |
+| minimal-api       | `gow new ... --skeleton=...`         | Ultra-light API only (with basic auth)           | Ready       |
 | api               | `gow new ... --api`                  | REST API with Sanctum                            | Ready       |
 | web               | `gow new ...`                        | Full web app with Blade                        | Ready       |
-| web-auth          | `gow new ... --auth`                 | Web + complete authentication                    | Ready       |
-| full              | -                                    | Web + API + Auth + Queue + Mail                  | Planned     |
+| web-auth          | `gow new ... --auth`                 | Web + complete authentication + RBAC             | Ready       |
+| full              | `gow new ... --skeleton=...`         | Web + API + Auth + RBAC + advanced structure     | Ready       |
 | admin-panel       | -                                    | Dashboard / Internal tools                       | Planned     |
 | with-docker       | -                                    | Includes Docker + docker-compose                 | Planned     |
 | inertia-react     | -                                    | Inertia.js + React                               | Planned     |

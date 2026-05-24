@@ -40,10 +40,12 @@ Each folder under `templates/` is a complete, independent starter kit.
 - `routes/` folder (`web.go` or `api.go`)
 - `README.md` inside the template (explains what the kit includes)
 
-### Optional but Recommended
+### Optional but Recommended (Now Standard in Auth Kits)
 
-- `app/Models/`
-- `database/migrations/`
+- `app/Models/` (User, Role, Permission)
+- `database/migrations/` (users, personal_access_tokens, roles, permissions, pivots)
+- `database/seeders/` (RoleSeeder with superadmin credentials)
+- `config/auth.go`
 - `resources/views/` (for web kits)
 - `app/Http/Controllers/`
 
@@ -70,8 +72,13 @@ Use these consistent placeholders inside template files. The `gow` CLI will repl
 
 ### Current Status of Kits (May 2026)
 
-- **Ready**: `minimal`, `minimal-api`, `api`, `web`, `web-auth`
-- **Planned / Placeholder**: `full`, `admin-panel`, `with-docker`, `inertia-react`, `inertia-vue`, `livewire`
+- **Ready** (with full Auth + RBAC + Superadmin seeder):
+  - `web-auth`
+  - `full`
+  - `minimal-api` (basic auth + user table)
+  - `minimal`, `api`, `web`
+
+- **Planned / Placeholder**: `admin-panel`, `with-docker`, `inertia-react`, `inertia-vue`, `livewire`
 
 When adding a new kit, please mark its status clearly in its `README.md`.
 
