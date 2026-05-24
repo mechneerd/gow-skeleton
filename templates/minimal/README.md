@@ -1,6 +1,8 @@
 # {{ .AppName }} - Minimal Starter
 
-Basic GoW project with simple routing and views.
+**Status**: ✅ Ready
+
+Ultra-light web starter for GoW.
 
 ## Getting Started
 
@@ -8,4 +10,16 @@ Basic GoW project with simple routing and views.
 go run main.go
 ```
 
-Use `gow make:*` commands to generate more files.
+## Structure
+
+- `main.go` - entrypoint
+- `bootstrap/app.go`
+- `config/app.go`
+- `routes/` (basic web routes)
+- `.env.example`
+
+## Next Steps
+
+Use `gow make:*` to generate models, controllers, etc.
+
+Generated with GoW on {{ .Year }}

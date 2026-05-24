@@ -6,22 +6,23 @@ import (
 	"net/http"
 
 	"{{ .ModulePath }}/config"
+	"{{ .ModulePath }}/routes"
 )
 
-// Application holds the web-auth application state.
+// Application is the minimal starter app.
 type Application struct {
 	Config config.AppConfig
 }
 
-// NewApplication initializes the authenticated web application.
+// NewApplication creates the minimal app.
 func NewApplication() *Application {
-	cfg := config.Load()
-	return &Application{Config: cfg}
+	return &Application{Config: config.Load()}
 }
 
 // Serve starts the server.
 func (a *Application) Serve() {
+	routes.RegisterRoutes()
 	addr := ":" + a.Config.Port
-	fmt.Printf("%s (with Auth) is running on http://localhost%s\n", a.Config.AppName, addr)
+	fmt.Printf("%s is running on http://localhost%s\n", a.Config.AppName, addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
 }

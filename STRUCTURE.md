@@ -7,15 +7,22 @@ This document explains how the `gow-skeleton` repository is organized so contrib
 ```
 gow-skeleton/
 ├── templates/
-│   ├── minimal/          # Basic project with routing + views
-│   ├── api/              # API-only starter (Sanctum, resources, JSON)
-│   ├── web/              # Full web app with Blade
-│   └── web-auth/         # Web + complete authentication (login, register, middleware, etc.)
+│   ├── minimal/              # Basic project with routing + views
+│   ├── minimal-api/          # Ultra-light API-only starter
+│   ├── api/                  # REST API with Sanctum
+│   ├── web/                  # Full web app with Blade
+│   ├── web-auth/             # Web + complete authentication
+│   ├── full/                 # Web + API + Auth + Queue + Mail (planned)
+│   ├── admin-panel/          # Dashboard / Internal tools (planned)
+│   ├── with-docker/          # Docker + docker-compose support (planned)
+│   ├── inertia-react/        # Inertia + React (planned)
+│   ├── inertia-vue/          # Inertia + Vue 3 (planned)
+│   └── livewire/             # Livewire-style (planned)
 ├── scripts/
 │   ├── post-install.sh
 │   └── post-install.ps1
 ├── README.md
-├── STRUCTURE.md          # This file
+├── STRUCTURE.md              # This file
 └── .gitignore
 ```
 
@@ -55,11 +62,18 @@ Use these consistent placeholders inside template files. The `gow` CLI will repl
 ## Adding a New Starter Kit
 
 1. Create a new folder under `templates/`, e.g. `templates/full`.
-2. Copy the structure from `web-auth` as a base.
-3. Update all placeholders.
-4. Add a short `README.md` inside the new template.
+2. Copy the structure from `web-auth` (or `minimal-api`) as a base.
+3. Update all placeholders (`{{ .AppName }}`, `{{ .ModulePath }}`, etc.).
+4. Add a short `README.md` inside the new template explaining its purpose and status.
 5. Update the main `README.md` with the new kit.
-6. Test by manually copying the folder and replacing placeholders.
+6. If the kit is ready, consider adding basic test coverage in the main GoW repo.
+
+### Current Status of Kits (May 2026)
+
+- **Ready**: `minimal`, `minimal-api`, `api`, `web`, `web-auth`
+- **Planned / Placeholder**: `full`, `admin-panel`, `with-docker`, `inertia-react`, `inertia-vue`, `livewire`
+
+When adding a new kit, please mark its status clearly in its `README.md`.
 
 ## Scripts Folder
 

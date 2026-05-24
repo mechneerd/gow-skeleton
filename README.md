@@ -6,12 +6,19 @@ When a user runs `gow new myapp`, the GoW CLI clones this repository and copies 
 
 ## Available Starter Kits
 
-| Starter Kit   | Command                     | Description                              |
-|---------------|-----------------------------|------------------------------------------|
-| minimal       | `gow new myapp --minimal`   | Basic routing + views                    |
-| api           | `gow new myapp --api`       | REST API with Sanctum                    |
-| web           | `gow new myapp`             | Full web app with Blade templating       |
-| web-auth      | `gow new myapp --auth`      | Web app + complete authentication system |
+| Starter Kit       | Command                              | Description                                      | Status      |
+|-------------------|--------------------------------------|--------------------------------------------------|-------------|
+| minimal           | `gow new ... --minimal`              | Basic routing + views                            | Ready       |
+| minimal-api       | `gow new ... --skeleton=...`         | Ultra-light API only                             | Ready       |
+| api               | `gow new ... --api`                  | REST API with Sanctum                            | Ready       |
+| web               | `gow new ...`                        | Full web app with Blade                        | Ready       |
+| web-auth          | `gow new ... --auth`                 | Web + complete authentication                    | Ready       |
+| full              | -                                    | Web + API + Auth + Queue + Mail                  | Planned     |
+| admin-panel       | -                                    | Dashboard / Internal tools                       | Planned     |
+| with-docker       | -                                    | Includes Docker + docker-compose                 | Planned     |
+| inertia-react     | -                                    | Inertia.js + React                               | Planned     |
+| inertia-vue       | -                                    | Inertia.js + Vue 3                               | Planned     |
+| livewire          | -                                    | Livewire-style reactive components               | Planned     |
 
 ## How It Works
 
