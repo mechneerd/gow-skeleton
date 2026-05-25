@@ -13,6 +13,6 @@ func CreatePasswordResetTokensTable(m *schema.Builder) error {
 	return m.Create("password_reset_tokens", func(table *schema.Blueprint) {
 		table.String("email", 255).Primary()
 		table.String("token", 255)
-		table.Timestamp("created_at").Nullable()
+		table.Text("created_at").Nullable()
 	})
 }

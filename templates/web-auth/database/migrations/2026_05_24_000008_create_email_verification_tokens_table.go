@@ -13,6 +13,6 @@ func CreateEmailVerificationTokensTable(m *schema.Builder) error {
 	return m.Create("email_verification_tokens", func(table *schema.Blueprint) {
 		table.String("email", 255).Primary()
 		table.String("token", 255)
-		table.Timestamp("created_at").Nullable()
+		table.Text("created_at").Nullable()
 	})
 }

@@ -12,10 +12,10 @@ func init() {
 func CreateSessionsTable(m *schema.Builder) error {
 	return m.Create("sessions", func(table *schema.Blueprint) {
 		table.String("id", 255).Primary()
-		table.UnsignedBigInteger("user_id").Nullable().Index()
+		table.Integer("user_id").Nullable()
 		table.String("ip_address", 45).Nullable()
 		table.Text("user_agent").Nullable()
 		table.Text("payload")
-		table.Integer("last_activity").Index()
+		table.Integer("last_activity")
 	})
 }
