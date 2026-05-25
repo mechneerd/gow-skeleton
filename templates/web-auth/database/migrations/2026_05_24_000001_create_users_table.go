@@ -5,11 +5,9 @@ import (
 	"github.com/mechneerd/gow/database/schema"
 )
 
-func init() {
-	migration.Register("2026_05_24_000001_create_users_table", CreateUsersTable)
-}
+type CreateUsersTable struct{}
 
-func CreateUsersTable(m *schema.Builder) error {
+func (CreateUsersTable) Up(m *schema.Builder) error {
 	return m.Create("users", func(table *schema.Blueprint) {
 		table.ID()
 		table.String("name", 255)
@@ -20,4 +18,12 @@ func CreateUsersTable(m *schema.Builder) error {
 		table.Text("remember_token").Nullable()
 		table.Timestamps()
 	})
+}
+
+func (CreateUsersTable) Down(m *schema.Builder) error {
+	return m.Drop("users")
+}
+
+func init() {
+	migration.Register("2026_05_24_000001_create_users_table", CreateUsersTable{})
 }

@@ -5,15 +5,21 @@ import (
 	"github.com/mechneerd/gow/database/schema"
 )
 
-func init() {
-	migration.Register("2026_05_24_000003_create_roles_table", CreateRolesTable)
-}
+type CreateRolesTable struct{}
 
-func CreateRolesTable(m *schema.Builder) error {
+func (CreateRolesTable) Up(m *schema.Builder) error {
 	return m.Create("roles", func(table *schema.Blueprint) {
 		table.ID()
 		table.String("name", 255)
 		table.String("guard_name", 255).Default("web")
 		table.Timestamps()
 	})
+}
+
+func (CreateRolesTable) Down(m *schema.Builder) error {
+	return m.Drop("roles")
+}
+
+func init() {
+	migration.Register("2026_05_24_000003_create_roles_table", CreateRolesTable{})
 }
