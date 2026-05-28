@@ -1,100 +1,205 @@
-{{/* extends "layouts.app" */}}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .AppName }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        zinc: { 950: '#09090b' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glow { box-shadow: 0 0 80px rgba(16, 185, 129, 0.15); }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .float { animation: float 3s ease-in-out infinite; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white min-h-screen antialiased">
 
-@section('content')
-<div class="max-w-5xl mx-auto px-6 pt-20 pb-24">
-    <div class="flex flex-col items-center text-center">
-        <!-- Badge -->
-        <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 mb-8">
-            <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-            <span class="text-sm font-medium text-emerald-400">v1.0 — Production Ready</span>
-        </div>
-
-        <h1 class="text-7xl font-semibold tracking-tighter mb-6">
-            The <span class="gradient-text">Laravel</span><br>
-            experience.<br>
-            <span class="text-zinc-400">In pure Go.</span>
-        </h1>
-
-        <p class="max-w-xl text-xl text-zinc-400 mb-10">
-            GoW gives you beautiful routing, Eloquent-style ORM, GoBlade templates, 
-            authentication, and a powerful Artisan CLI — without leaving Go.
-        </p>
-
-        <div class="flex items-center gap-x-4">
-            <a href="https://github.com/mechneerd/gow" 
-               class="px-8 py-3.5 bg-white text-zinc-950 font-semibold rounded-2xl hover:bg-zinc-100 transition flex items-center gap-x-2">
-                Get Started
-            </a>
-            <a href="https://github.com/mechneerd/gow/docs" 
-               class="px-8 py-3.5 border border-zinc-700 hover:bg-zinc-900 rounded-2xl transition">
-                Read the Docs
-            </a>
-        </div>
-
-        <!-- Features -->
-        <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
-            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 text-left">
-                <div class="text-3xl mb-4">⚡</div>
-                <div class="font-semibold text-lg mb-2">Blazing Fast</div>
-                <div class="text-zinc-400 text-sm">Native Go performance with Laravel-like developer experience.</div>
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center font-bold text-sm">G</div>
+                <span class="font-semibold text-lg">GoW</span>
             </div>
-            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 text-left">
-                <div class="text-3xl mb-4">🛠️</div>
-                <div class="font-semibold text-lg mb-2">Full Artisan CLI</div>
-                <div class="text-zinc-400 text-sm">`gow new`, `make:model`, `migrate`, `db:seed`, `serve` — everything you expect.</div>
-            </div>
-            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 text-left">
-                <div class="text-3xl mb-4">🔐</div>
-                <div class="font-semibold text-lg mb-2">Auth + RBAC Built-in</div>
-                <div class="text-zinc-400 text-sm">Session, Fortify, Socialite, roles & permissions out of the box.</div>
+            <div class="flex items-center gap-6 text-sm text-zinc-400">
+                <a href="#" class="hover:text-white transition">Docs</a>
+                <a href="#" class="hover:text-white transition">GitHub</a>
+                <a href="/login" class="px-4 py-2 bg-white text-zinc-950 font-medium rounded-lg hover:bg-zinc-200 transition">Login</a>
             </div>
         </div>
+    </nav>
 
-        <!-- GoW Livewire Demo -->
-        <div class="mt-20 w-full max-w-2xl">
-            <div class="text-center mb-8">
-                <div class="inline-block px-3 py-1 text-xs font-medium tracking-widest bg-zinc-900 border border-zinc-700 rounded-full mb-4">NEW</div>
-                <h2 class="text-3xl font-semibold tracking-tight">Reactive UI • No Page Reload</h2>
-                <p class="text-zinc-400 mt-2">GoW Livewire — pure Go components that update in place</p>
+    <!-- Hero -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 mb-8">
+                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                <span class="text-sm font-medium text-emerald-400">v1.0 — Production Ready</span>
             </div>
 
-            <div id="livewire-counter-placeholder" 
-                 class="p-6 bg-zinc-900 border border-zinc-700 rounded-3xl">
-                <div class="text-center text-sm text-zinc-500 py-8">
-                    Loading interactive counter...
-                </div>
-            </div>
+            <h1 class="text-6xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+                The <span class="gradient-text">Laravel</span><br>
+                experience.<br>
+                <span class="text-zinc-500">In pure Go.</span>
+            </h1>
 
-            <p class="text-xs text-center text-zinc-500 mt-3">
-                Built with GoW Livewire + GoBlade. Only the counter updates — zero full page reload.
+            <p class="max-w-xl text-lg text-zinc-400 mb-10 mx-auto">
+                Beautiful routing, Eloquent-style ORM, GoBlade templates, 
+                authentication, and a powerful Artisan CLI — without leaving Go.
             </p>
-        </div>
-    </div>
-</div>
 
-<script src="/js/livewire.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/livewire/counter')
-        .then(res => res.json())
-        .then(data => {
-            const placeholder = document.getElementById('livewire-counter-placeholder');
-            if (placeholder && data.html) {
-                placeholder.outerHTML = data.html;
-                if (window.Livewire) window.Livewire.scan();
-            }
-        })
-        .catch(() => {
-            const placeholder = document.getElementById('livewire-counter-placeholder');
-            if (placeholder) {
-                placeholder.innerHTML = `
-                    <div class="text-center p-4 text-sm text-amber-400">
-                        Livewire route not registered yet.<br>
-                        <span class="text-zinc-500">See docs for wiring</span>
+            <div class="flex items-center justify-center gap-4">
+                <a href="#" class="px-8 py-3.5 bg-white text-zinc-950 font-semibold rounded-xl hover:bg-zinc-200 transition">
+                    Get Started
+                </a>
+                <a href="#" class="px-8 py-3.5 border border-zinc-700 text-zinc-300 font-medium rounded-xl hover:bg-zinc-900 transition">
+                    Read the Docs
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-20 px-6">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-zinc-700 transition">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-2xl mb-4">&#9889;</div>
+                <h3 class="font-semibold text-lg mb-2">Blazing Fast</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed">Native Go performance with Laravel-like developer experience.</p>
+            </div>
+            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-zinc-700 transition">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-2xl mb-4">&#128736;</div>
+                <h3 class="font-semibold text-lg mb-2">Full Artisan CLI</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed"><code class="text-emerald-400">gow new</code>, <code class="text-emerald-400">make:model</code>, <code class="text-emerald-400">migrate</code>, <code class="text-emerald-400">serve</code> — everything you expect.</p>
+            </div>
+            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 hover:border-zinc-700 transition">
+                <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-2xl mb-4">&#128274;</div>
+                <h3 class="font-semibold text-lg mb-2">Auth + RBAC</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed">Session, Fortify, Socialite, roles & permissions out of the box.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Example -->
+    <section class="py-20 px-6">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold tracking-tight mb-2">Familiar, yet better</h2>
+                <p class="text-zinc-400">If you know Laravel, you already know GoW.</p>
+            </div>
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden glow">
+                <div class="flex items-center gap-2 px-4 py-3 border-b border-zinc-800">
+                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                    <span class="text-xs text-zinc-500 ml-2">routes/web.go</span>
+                </div>
+                <pre class="p-6 text-sm text-zinc-300 overflow-x-auto"><code>router.Get("/", func(w http.ResponseWriter, r *http.Request) error {
+    user, _ := routing.Model[models.User](r, "user")
+    return response.JSON(w, 200, user)
+})
+
+router.Resource("posts", &PostController{})
+
+router.Group("/api", func(r *routing.Router) {
+    r.Middleware("auth:sanctum")
+    r.Get("/dashboard", dashboardHandler)
+})</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Livewire Demo -->
+    <section class="py-20 px-6">
+        <div class="max-w-2xl mx-auto text-center">
+            <div class="inline-block px-3 py-1 text-xs font-medium tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full mb-4">NEW</div>
+            <h2 class="text-3xl font-bold tracking-tight mb-2">Reactive UI. No Page Reload.</h2>
+            <p class="text-zinc-400 mb-8">GoW Livewire — pure Go components that update in place.</p>
+
+            <div id="livewire-counter" class="p-8 bg-zinc-900/50 border border-zinc-800 rounded-2xl">
+                <div class="text-zinc-500 text-sm">Loading interactive counter...</div>
+            </div>
+
+            <p class="text-xs text-zinc-600 mt-4">Only the counter updates — zero full page reload.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-zinc-800/50 py-8 px-6">
+        <div class="max-w-5xl mx-auto flex items-center justify-between text-sm text-zinc-500">
+            <span>&copy; {{ .Year }} GoW Framework. MIT License.</span>
+            <div class="flex items-center gap-4">
+                <a href="#" class="hover:text-white transition">GitHub</a>
+                <a href="#" class="hover:text-white transition">Docs</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Livewire Counter Script -->
+    <script>
+    (function() {
+        const el = document.getElementById('livewire-counter');
+        let count = 0;
+
+        function render() {
+            el.innerHTML = `
+                <div class="flex flex-col items-center gap-4">
+                    <div class="text-6xl font-bold text-white" id="counter-value">${count}</div>
+                    <div class="flex gap-3">
+                        <button onclick="livewireUpdate(-1)" class="px-6 py-2.5 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-medium transition">-1</button>
+                        <button onclick="livewireUpdate(0)" class="px-6 py-2.5 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-medium transition">Reset</button>
+                        <button onclick="livewireUpdate(1)" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-medium transition">+1</button>
                     </div>
-                `;
-            }
-        });
-});
-</script>
-@endsection
+                </div>
+            `;
+        }
+
+        window.livewireUpdate = function(delta) {
+            if (delta === 0) { count = 0; render(); return; }
+
+            fetch('/livewire/counter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ count: count, delta: delta })
+            })
+            .then(res => res.json())
+            .then(data => {
+                count = data.count;
+                render();
+            })
+            .catch(() => {
+                count += delta;
+                render();
+            });
+        };
+
+        // Initial load
+        fetch('/livewire/counter')
+            .then(res => res.json())
+            .then(data => {
+                count = data.count;
+                render();
+            })
+            .catch(() => render());
+    })();
+    </script>
+
+</body>
+</html>

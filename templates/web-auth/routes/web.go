@@ -1,7 +1,10 @@
 package routes
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"{{ .ModulePath }}/app/Http/Controllers/Auth"
 	"github.com/mechneerd/gow/routing"
@@ -10,14 +13,22 @@ import (
 
 var router *routing.Router
 var viewEngine *view.Engine
+var counterValue int
 
 func init() {
 	router = routing.NewRouter()
 
 	viewEngine = view.NewEngine([]string{"resources/views"}, "storage/framework/views")
 
-	// GoW Livewire + beautiful landing page
-	// Note: livewire.RegisterRoutes(router) would be ideal here once imported
+	// Serve static files from public/
+	http.HandleFunc("/js/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "public"+r.URL.Path)
+	})
+	http.HandleFunc("/css/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "public"+r.URL.Path)
+	})
+
+	// Landing page
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) error {
 		html, err := viewEngine.Make("welcome", map[string]any{
 			"AppName": "{{ .AppName }}",
@@ -32,13 +43,31 @@ func init() {
 		w.Write([]byte(html))
 		return nil
 	})
+
+	// Livewire counter endpoint
+	http.HandleFunc("/livewire/counter", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		if r.Method == http.MethodPost {
+			var req struct {
+				Count int `json:"count"`
+				Delta int `json:"delta"`
+			}
+			if err := json.NewDecoder(r.Body).Decode(&req); err == nil {
+				counterValue = req.Count + req.Delta
+			}
+		}
+
+		json.NewEncoder(w).Encode(map[string]any{
+			"count": counterValue,
+			"html":  fmt.Sprintf(`<div class="flex flex-col items-center gap-4"><div class="text-6xl font-bold text-white">%s</div></div>`, strconv.Itoa(counterValue)),
+		})
+	})
 }
 
 func RegisterWebRoutes() {
-	// Mount router for new style routes (landing page + future Livewire)
 	http.Handle("/", router)
 
-	// Existing auth routes (raw for now)
 	http.HandleFunc("/login", Auth.LoginHandler)
 	http.HandleFunc("/register", Auth.RegisterHandler)
 	http.HandleFunc("/logout", Auth.LogoutHandler)
