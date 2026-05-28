@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"{{ .ModulePath }}/app/Http/Controllers/Auth"
+	"test-project/app/Http/Controllers/Auth"
 	"github.com/mechneerd/gow/routing"
 	"github.com/mechneerd/gow/view"
 )
@@ -36,7 +36,23 @@ func init() {
 		})
 		if err != nil {
 			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte("<h1>Welcome to {{ .AppName }}</h1>"))
+			w.Write([]byte("<h1>Welcome to test-project</h1>"))
+			return nil
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.Write([]byte(html))
+		return nil
+	})
+
+	// Documentation page
+	router.Get("/docs", func(w http.ResponseWriter, r *http.Request) error {
+		html, err := viewEngine.Make("docs", map[string]any{
+			"AppName": "{{ .AppName }}",
+			"Year":    "2026",
+		})
+		if err != nil {
+			w.Header().Set("Content-Type", "text/html")
+			w.Write([]byte("<h1>Documentation</h1><p>Docs coming soon.</p>"))
 			return nil
 		}
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")

@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - {{ .AppName }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-text { background: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .sidebar a.active { color: #10b981; background: rgba(16,185,129,0.1); }
+        .sidebar a:hover { color: #10b981; }
+        pre code { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+        .content h1 { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #27272a; }
+        .content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #e4e4e7; }
+        .content h3 { font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.5rem; color: #d4d4d8; }
+        .content p { margin-bottom: 1rem; line-height: 1.75; color: #a1a1aa; }
+        .content a { color: #3b82f6; text-decoration: underline; }
+        .content a:hover { color: #60a5fa; }
+        .content ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #a1a1aa; }
+        .content ul li { margin-bottom: 0.25rem; }
+        .content table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+        .content th { text-align: left; padding: 0.75rem; border-bottom: 2px solid #27272a; color: #e4e4e7; font-weight: 600; }
+        .content td { padding: 0.75rem; border-bottom: 1px solid #1f1f23; color: #a1a1aa; }
+        .content code:not(pre code) { background: #1f1f23; padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.875rem; color: #10b981; }
+        .content pre { background: #0f0f12; border: 1px solid #27272a; border-radius: 0.75rem; padding: 1.25rem; overflow-x: auto; margin-bottom: 1.5rem; }
+        .content pre code { color: #d4d4d8; font-size: 0.875rem; line-height: 1.6; }
+        .search-box { background: #18181b; border: 1px solid #27272a; }
+        .search-box:focus { border-color: #10b981; outline: none; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white min-h-screen antialiased">
+
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center font-bold text-sm">G</div>
+                <span class="font-semibold text-lg">GoW</span>
+            </a>
+            <div class="flex items-center gap-6 text-sm text-zinc-400">
+                <a href="/docs" class="text-emerald-400 font-medium">Docs</a>
+                <a href="#" class="hover:text-white transition">GitHub</a>
+                <a href="/login" class="px-4 py-2 bg-white text-zinc-950 font-medium rounded-lg hover:bg-zinc-200 transition">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-16">
+        <!-- Sidebar -->
+        <aside class="sidebar fixed w-64 h-[calc(100vh-4rem)] overflow-y-auto border-r border-zinc-800/50 p-6 hidden lg:block">
+            <input type="text" placeholder="Search docs..." class="search-box w-full px-4 py-2.5 rounded-lg text-sm mb-6" id="searchInput">
+
+            <div class="space-y-1">
+                <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">Getting Started</div>
+                <a href="#installation" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition active">Installation</a>
+                <a href="#configuration" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Configuration</a>
+                <a href="#directory-structure" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Directory Structure</a>
+
+                <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mt-6 mb-3">Core Concepts</div>
+                <a href="#application-lifecycle" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Application Lifecycle</a>
+                <a href="#service-providers" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Service Providers</a>
+                <a href="#ioc-container" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">IoC Container</a>
+
+                <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mt-6 mb-3">Routing</div>
+                <a href="#routing" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Routing</a>
+                <a href="#route-groups" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Route Groups</a>
+                <a href="#route-model-binding" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Route Model Binding</a>
+                <a href="#resource-controllers" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Resource Controllers</a>
+                <a href="#middleware" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Middleware</a>
+
+                <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mt-6 mb-3">Database</div>
+                <a href="#query-builder" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Query Builder</a>
+                <a href="#orm" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">ORM (Goquent)</a>
+                <a href="#migrations" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Migrations</a>
+                <a href="#schema-builder" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Schema Builder</a>
+
+                <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mt-6 mb-3">Frontend</div>
+                <a href="#goblade" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">GoBlade Templates</a>
+                <a href="#components" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Components & Slots</a>
+                <a href="#layouts" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Layouts</a>
+                <a href="#livewire" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Livewire</a>
+
+                <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mt-6 mb-3">Authentication</div>
+                <a href="#authentication" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Authentication</a>
+                <a href="#authorization" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Authorization & Gates</a>
+                <a href="#rbac" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">RBAC</a>
+
+                <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mt-6 mb-3">Services</div>
+                <a href="#cache" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Cache</a>
+                <a href="#session" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Session</a>
+                <a href="#queue" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Queue</a>
+                <a href="#events" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Events</a>
+                <a href="#mail" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Mail</a>
+                <a href="#notifications" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Notifications</a>
+                <a href="#broadcasting" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Broadcasting</a>
+                <a href="#storage" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Storage</a>
+                <a href="#logging" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Logging</a>
+                <a href="#encryption" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Encryption</a>
+
+                <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mt-6 mb-3">Testing & CLI</div>
+                <a href="#testing" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Testing</a>
+                <a href="#artisan-cli" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Artisan CLI</a>
+                <a href="#scheduling" class="block px-3 py-2 rounded-lg text-sm text-zinc-400 hover:text-emerald-400 transition">Scheduling</a>
+            </div>
+        </aside>
+
+        <!-- Content -->
+        <main class="content flex-1 lg:ml-64 max-w-4xl px-8 py-12">
+
+            <h1 id="installation" class="text-white">Installation</h1>
+
+            <h2>Quick Install</h2>
+            <p><strong>macOS / Linux</strong></p>
+            <pre><code>curl -sSfL https://raw.githubusercontent.com/mechneerd/gow/main/install.sh | sh</code></pre>
+
+            <p><strong>Windows (PowerShell)</strong></p>
+            <pre><code>iwr -useb https://raw.githubusercontent.com/mechneerd/gow/main/install.ps1 | iex</code></pre>
+
+            <p>After installation:</p>
+            <pre><code>gow --version</code></pre>
+
+            <h2>Create a New Project</h2>
+            <pre><code># Interactive wizard
+gow new myblog
+
+# Non-interactive with defaults
+gow new myblog --yes
+
+# REST API with PostgreSQL
+gow new myapi --api --yes --db=postgres
+
+# Web app with authentication
+gow new myapp --auth --yes
+
+# Minimal website
+gow new mysite --minimal --yes</code></pre>
+
+            <h2>Run the Application</h2>
+            <pre><code>cd myblog
+gow serve
+# or
+go run main.go</code></pre>
+            <p>Visit <code>http://localhost:8080</code>.</p>
+
+
+            <h1 id="configuration" class="text-white">Configuration</h1>
+
+            <p>GoW loads configuration from <code>.env</code> files and environment variables.</p>
+
+            <h2>Environment Variables</h2>
+            <pre><code>APP_NAME=MyApp
+APP_ENV=local
+APP_PORT=8080
+APP_KEY=base64:your-secret-key
+
+DB_CONNECTION=sqlite
+DB_DATABASE=database.sqlite
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=
+
+CACHE_DRIVER=memory
+SESSION_DRIVER=file
+QUEUE_DRIVER=sync</code></pre>
+
+            <h2>Accessing Configuration</h2>
+            <pre><code>import "github.com/mechneerd/gow/config"
+
+cfg := config.NewRepository(".")
+
+// Get string value
+name := cfg.Get("APP_NAME", "MyApp")
+
+// Get typed values
+port := cfg.GetInt("APP_PORT", 8080)
+debug := cfg.GetBool("APP_DEBUG", false)</code></pre>
+
+
+            <h1 id="directory-structure" class="text-white">Directory Structure</h1>
+
+            <pre><code>myapp/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   └── Auth/
+│   │   └── Middleware/
+│   ├── Livewire/
+│   └── Models/
+├── bootstrap/
+│   └── app.go
+├── config/
+│   ├── app.go
+│   ├── auth.go
+│   └── database.go
+├── database/
+│   ├── migrations/
+│   ├── seeders/
+│   └── factory/
+├── public/
+│   └── js/
+├── resources/
+│   └── views/
+│       ├── welcome.goblade
+│       └── components/
+├── routes/
+│   ├── web.go
+│   └── api.go
+├── storage/
+├── .env
+├── go.mod
+└── main.go</code></pre>
+
+
+            <h1 id="application-lifecycle" class="text-white">Application Lifecycle</h1>
+
+            <pre><code>// main.go
+package main
+
+import (
+    "myapp/routes"
+    "myapp/bootstrap"
+)
+
+func main() {
+    routes.RegisterWebRoutes()
+    routes.RegisterAPIRoutes()
+
+    app := bootstrap.NewApplication()
+    app.Serve()
+}</code></pre>
+
+
+            <h1 id="service-providers" class="text-white">Service Providers</h1>
+
+            <p>Service providers register services into the container.</p>
+
+            <pre><code>package myprovider
+
+import "github.com/mechneerd/gow/foundation"
+
+type ServiceProvider struct {
+    foundation.BaseServiceProvider
+}
+
+func (p *ServiceProvider) Register(app *foundation.Application) {
+    app.Singleton((*MyService)(nil), func() *MyService {
+        return &MyService{}
+    })
+}
+
+func (p *ServiceProvider) Boot(app *foundation.Application) {
+    // Called after all providers are registered
+}</code></pre>
+
+
+            <h1 id="ioc-container" class="text-white">IoC Container</h1>
+
+            <pre><code>import "github.com/mechneerd/gow/container"
+
+c := container.New()
+
+// Bind
+c.Bind((*Logger)(nil), func() Logger { return &FileLogger{} })
+
+// Singleton
+c.Singleton((*Database)(nil), func() *Database { return connectDB() })
+
+// Resolve with generics
+logger, err := container.Make[Logger](c)</code></pre>
+
+            <h2>Contextual Bindings</h2>
+            <pre><code>c.When((*PhotoController)(nil)).
+    Needs((*Filesystem)(nil)).
+    Give(func() *Filesystem { return NewS3Filesystem() })</code></pre>
+
+            <h2>Struct Injection</h2>
+            <pre><code>type UserController struct {
+    DB    *orm.DB    `inject:""`
+    Cache cache.Store `inject:""`
+}</code></pre>
+
+
+            <h1 id="routing" class="text-white">Routing</h1>
+
+            <pre><code>import "github.com/mechneerd/gow/routing"
+
+router := routing.NewRouter()
+
+router.Get("/users", listUsers)
+router.Post("/users", createUser)
+router.Put("/users/{id}", updateUser)
+router.Delete("/users/{id}", deleteUser)</code></pre>
+
+            <h2>Named Routes</h2>
+            <pre><code>route := router.Get("/dashboard", dashboardHandler)
+router.SetName(route, "dashboard")</code></pre>
+
+            <h2>Reading Route Params</h2>
+            <pre><code>func showUser(w http.ResponseWriter, r *http.Request) error {
+    params := r.Context().Value(routing.ParamsKey).(map[string]string)
+    id := params["id"]
+    return nil
+}</code></pre>
+
+
+            <h1 id="route-groups" class="text-white">Route Groups</h1>
+
+            <pre><code>router.Group("/api", func(r *routing.Router) {
+    r.Get("/users", apiListUsers)
+    r.Post("/users", apiCreateUser)
+})</code></pre>
+
+            <h2>With Middleware</h2>
+            <pre><code>router.Group("/admin", func(r *routing.Router) {
+    r.Use(authMiddleware)
+    r.Use(roleMiddleware("admin"))
+    r.Get("/dashboard", adminDashboard)
+})</code></pre>
+
+
+            <h1 id="route-model-binding" class="text-white">Route Model Binding</h1>
+
+            <pre><code>router.Get("/users/{user}", func(w http.ResponseWriter, r *http.Request) error {
+    user, ok := routing.Model[models.User](r, "user")
+    if !ok {
+        return response.Error(w, 404, "User not found")
+    }
+    return response.JSON(w, 200, user)
+})</code></pre>
+
+
+            <h1 id="resource-controllers" class="text-white">Resource Controllers</h1>
+
+            <pre><code>// Creates: index, create, store, show, edit, update, destroy
+router.Resource("posts", &PostController{})
+
+// Creates: index, store, show, update, destroy (no create/edit)
+router.ApiResource("photos", &PhotoController{})</code></pre>
+
+
+            <h1 id="middleware" class="text-white">Middleware</h1>
+
+            <h2>Creating Middleware</h2>
+            <pre><code>package middleware
+
+func RateLimit(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        if isRateLimited(r) {
+            http.Error(w, "Too Many Requests", 429)
+            return
+        }
+        next.ServeHTTP(w, r)
+    })
+}</code></pre>
+
+            <h2>Available Middleware</h2>
+            <table>
+                <thead><tr><th>Middleware</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>auth</code></td><td>Checks authentication status</td></tr>
+                    <tr><td><code>cors</code></td><td>Cross-Origin Resource Sharing headers</td></tr>
+                    <tr><td><code>csrf</code></td><td>CSRF token validation</td></tr>
+                    <tr><td><code>session</code></td><td>Loads/saves session data</td></tr>
+                    <tr><td><code>throttle</code></td><td>Rate limiting using cache</td></tr>
+                    <tr><td><code>trim_strings</code></td><td>Trims whitespace from form values</td></tr>
+                    <tr><td><code>security_headers</code></td><td>X-Frame-Options, X-Content-Type-Options, etc.</td></tr>
+                    <tr><td><code>recovery</code></td><td>Recovers from panics</td></tr>
+                </tbody>
+            </table>
+
+
+            <h1 id="query-builder" class="text-white">Query Builder</h1>
+
+            <pre><code>b := query.NewBuilder(conn, dialect)
+
+// Select
+rows, err := b.Table("users").
+    Select("name", "email").
+    Where("age", ">", 18).
+    OrWhere("role", "=", "admin").
+    WhereIn("status", []any{"active", "pending"}).
+    OrderBy("name", "ASC").
+    Limit(10).
+    Get()
+
+// Joins
+rows, err := b.Table("users").
+    Join("posts", "users.id", "=", "posts.user_id").
+    Where("users.active", "=", true).
+    Get()
+
+// Aggregates
+count, _ := b.Table("users").Count("")
+maxAge, _ := b.Table("users").Max("age")
+
+// Insert
+result, _ := b.Table("users").Insert(map[string]any{
+    "name": "John", "email": "john@example.com",
+})
+
+// Conditional Clauses
+b.Table("users").
+    When(isAdmin, func(b *query.Builder) {
+        b.Where("role", "=", "admin")
+    }).
+    Get()</code></pre>
+
+
+            <h1 id="orm" class="text-white">ORM (Goquent)</h1>
+
+            <h2>Defining Models</h2>
+            <pre><code>type User struct {
+    orm.Model
+    Name     string     `db:"name"`
+    Email    string     `db:"email"`
+    Password string     `db:"password"`
+    DeletedAt *time.Time `db:"deleted_at" gow:"softDelete"`
+}
+
+func (User) TableName() string { return "users" }</code></pre>
+
+            <h2>CRUD Operations</h2>
+            <pre><code>q := orm.NewQuery[User](db)
+
+user, _ := q.Find(1)
+user, _ := q.Where("email", "=", "john@example.com").First()
+users, _ := q.Where("active", "=", true).Get()
+
+q.Insert(&User{Name: "John"})
+q.Update(&user)
+q.Save(&user)    // Insert or Update
+q.Delete(&user)</code></pre>
+
+            <h2>Soft Deletes</h2>
+            <pre><code>users, _ := q.WithTrashed().Get()     // Include soft-deleted
+users, _ := q.OnlyTrashed().Get()    // Only soft-deleted
+q.Restore(user)                       // Restore
+q.ForceDelete(user)                   // Permanent delete</code></pre>
+
+            <h2>Eager Loading</h2>
+            <pre><code>users, _ := q.With("Posts", "Profile").Get()
+users, _ := q.With("Posts.Comments").Get()</code></pre>
+
+            <h2>Relationships</h2>
+            <pre><code>type User struct {
+    orm.Model
+    Posts    []Post    `gow:"hasMany"`
+    Profile  *Profile  `gow:"hasOne"`
+    Roles    []Role    `gow:"belongsToMany"`
+}
+
+type Post struct {
+    orm.Model
+    UserID uint  `db:"user_id"`
+    User   *User `gow:"belongsTo"`
+}</code></pre>
+
+            <h2>Lifecycle Hooks</h2>
+            <pre><code>func (u *User) BeforeCreate() error {
+    hashed, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
+    if err != nil { return err }
+    u.Password = string(hashed)
+    return nil
+}</code></pre>
+            <p>Available hooks: <code>BeforeCreate</code>, <code>AfterCreate</code>, <code>BeforeUpdate</code>, <code>AfterUpdate</code>, <code>BeforeSave</code>, <code>AfterSave</code>, <code>BeforeDelete</code>, <code>AfterDelete</code>, <code>BeforeFind</code>, <code>AfterFind</code></p>
+
+
+            <h1 id="migrations" class="text-white">Migrations</h1>
+
+            <pre><code>gow make:migration create_users_table</code></pre>
+
+            <pre><code>package migrations
+
+import (
+    "github.com/mechneerd/gow/database/migration"
+    "github.com/mechneerd/gow/database/schema"
+)
+
+type CreateUsersTable struct{}
+
+func (CreateUsersTable) Up(m *schema.Builder) error {
+    return m.Create("users", func(table *schema.Blueprint) {
+        table.ID()
+        table.String("name", 255)
+        table.String("email", 255).Unique()
+        table.String("password", 255)
+        table.Boolean("is_active").Default(true)
+        table.Timestamps()
+    })
+}
+
+func (CreateUsersTable) Down(m *schema.Builder) error {
+    return m.Drop("users")
+}
+
+func init() {
+    migration.Register("2026_05_24_000001_create_users_table", CreateUsersTable{})
+}</code></pre>
+
+            <h2>Running Migrations</h2>
+            <table>
+                <thead><tr><th>Command</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>gow migrate</code></td><td>Run all pending migrations</td></tr>
+                    <tr><td><code>gow migrate:rollback</code></td><td>Rollback last migration</td></tr>
+                    <tr><td><code>gow migrate:fresh</code></td><td>Drop all tables and re-run</td></tr>
+                    <tr><td><code>gow migrate:refresh</code></td><td>Rollback and re-run</td></tr>
+                    <tr><td><code>gow migrate:status</code></td><td>Show migration status</td></tr>
+                    <tr><td><code>gow migrate:run &lt;name&gt;</code></td><td>Run specific migration</td></tr>
+                </tbody>
+            </table>
+
+
+            <h1 id="schema-builder" class="text-white">Schema Builder</h1>
+
+            <h2>Column Types</h2>
+            <table>
+                <thead><tr><th>Method</th><th>SQL Type</th></tr></thead>
+                <tbody>
+                    <tr><td><code>table.ID()</code></td><td>INTEGER PRIMARY KEY AUTOINCREMENT</td></tr>
+                    <tr><td><code>table.String("name", 255)</code></td><td>VARCHAR(255)</td></tr>
+                    <tr><td><code>table.Text("content")</code></td><td>TEXT</td></tr>
+                    <tr><td><code>table.Integer("count")</code></td><td>INTEGER</td></tr>
+                    <tr><td><code>table.Boolean("active")</code></td><td>BOOLEAN</td></tr>
+                    <tr><td><code>table.Float("price")</code></td><td>REAL</td></tr>
+                    <tr><td><code>table.Timestamps()</code></td><td>created_at, updated_at</td></tr>
+                    <tr><td><code>table.SoftDeletes()</code></td><td>deleted_at</td></tr>
+                    <tr><td><code>table.JSON("metadata")</code></td><td>TEXT (JSON)</td></tr>
+                    <tr><td><code>table.Uuid("uuid")</code></td><td>VARCHAR(36)</td></tr>
+                </tbody>
+            </table>
+
+            <h2>Column Modifiers</h2>
+            <table>
+                <thead><tr><th>Modifier</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>.Nullable()</code></td><td>Allow NULL values</td></tr>
+                    <tr><td><code>.Default(value)</code></td><td>Set default value</td></tr>
+                    <tr><td><code>.Unique()</code></td><td>Add unique constraint</td></tr>
+                    <tr><td><code>.Primary()</code></td><td>Mark as primary key</td></tr>
+                    <tr><td><code>.Index()</code></td><td>Add index</td></tr>
+                </tbody>
+            </table>
+
+
+            <h1 id="goblade" class="text-white">GoBlade Templates</h1>
+
+            <pre><code>{{!-- Echo --}}
+{{ $name }}
+{!! $rawHtml !!}  {{-- Unescaped --}}
+
+{{-- If/Else --}}
+@if($user->active)
+    <p>Active</p>
+@else
+    <p>Inactive</p>
+@endif
+
+{{-- Loops --}}
+@foreach($users as $user)
+    <p>{{ $user->name }} ({{ $loop->index }})</p>
+@endforeach
+
+{{-- CSRF --}}
+<form method="POST">
+    @csrf
+    <input type="text" name="email">
+</form>
+
+{{-- Authorization --}}
+@auth
+    <p>Welcome, {{ auth()->name }}</p>
+@endauth
+
+@can('update', $post)
+    <a href="/edit">Edit</a>
+@endcan</code></pre>
+
+            <h2>Rendering Views</h2>
+            <pre><code>engine := view.NewEngine([]string{"resources/views"}, "storage/framework/views")
+
+html, err := engine.Make("welcome", map[string]any{
+    "AppName": "MyApp",
+})
+
+w.Header().Set("Content-Type", "text/html; charset=utf-8")
+w.Write([]byte(html))</code></pre>
+
+
+            <h1 id="components" class="text-white">Components &amp; Slots</h1>
+
+            <pre><code>{{!-- resources/views/components/alert.goblade --}}
+<div class="alert alert-{{ $type }}">
+    {{ $slot }}
+</div>
+
+{{-- Usage --}}
+<x-alert type="success">
+    <p>Operation completed!</p>
+</x-alert></code></pre>
+
+
+            <h1 id="layouts" class="text-white">Layouts</h1>
+
+            <pre><code>{{!-- resources/views/layouts/app.goblade --}}
+<!DOCTYPE html>
+<html>
+<head><title>@yield('title', 'MyApp')</title></head>
+<body>@yield('content')</body>
+</html>
+
+{{-- Using a layout --}}
+@extends('layouts.app')
+@section('title', 'Dashboard')
+@section('content')
+    <h1>Dashboard</h1>
+@endsection</code></pre>
+
+
+            <h1 id="authentication" class="text-white">Authentication</h1>
+
+            <pre><code>import "github.com/mechneerd/gow/auth"
+
+guard := auth.NewSessionGuard("web", userProvider, sessionManager)
+
+// Attempt login
+success := guard.Attempt(map[string]any{
+    "email": "john@example.com",
+    "password": "secret",
+})
+
+// Check
+if guard.Check() {
+    user := guard.User()
+}
+
+guard.Login(user)
+guard.Logout()</code></pre>
+
+
+            <h1 id="authorization" class="text-white">Authorization &amp; Gates</h1>
+
+            <pre><code>gate := access.NewGate()
+
+gate.Define("edit-post", func(user any, post any) bool {
+    return user.(*models.User).ID == post.(*models.Post).UserID
+})
+
+if gate.Allows(user, "edit-post", post) {
+    // Allow
+}</code></pre>
+
+
+            <h1 id="rbac" class="text-white">RBAC (Roles &amp; Permissions)</h1>
+
+            <pre><code>user.AssignRole("admin")
+user.HasRole("admin")     // true
+user.RemoveRole("admin")
+user.SyncRoles([]string{"admin", "editor"})</code></pre>
+
+
+            <h1 id="livewire" class="text-white">Livewire</h1>
+
+            <p>GoW Livewire provides reactive UI components that update without page reloads.</p>
+
+            <pre><code>// Backend endpoint
+http.HandleFunc("/livewire/counter", func(w http.ResponseWriter, r *http.Request) {
+    if r.Method == http.MethodPost {
+        var req struct { Count int `json:"count"`; Delta int `json:"delta"` }
+        json.NewDecoder(r.Body).Decode(&req)
+        counterValue = req.Count + req.Delta
+    }
+    json.NewEncoder(w).Encode(map[string]any{"count": counterValue})
+})
+
+// Frontend
+<script>
+function updateCounter(delta) {
+    fetch('/livewire/counter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ count: currentCount, delta })
+    }).then(r => r.json()).then(data => {
+        document.getElementById('count').textContent = data.count;
+    });
+}
+</script></code></pre>
+
+
+            <h1 id="cache" class="text-white">Cache</h1>
+
+            <pre><code>import "github.com/mechneerd/gow/cache"
+
+store := cache.NewMemoryStore()
+
+store.Put("key", "value", 5*time.Minute)
+value, ok := store.Get("key")
+store.Forget("key")
+store.Flush()
+store.Increment("counter", 1)
+store.Decrement("counter", 1)
+
+// Rate limiting
+limiter := cache.NewRateLimiter(store)
+limiter.TooManyAttempts("user:123", 60)
+limiter.Hit("user:123", 1)</code></pre>
+
+
+            <h1 id="session" class="text-white">Session</h1>
+
+            <pre><code>mgr := session.NewManager(store, "")
+mgr.Start()
+
+mgr.Put("key", "value")
+value := mgr.Get("key")
+
+mgr.Flash("status", "Saved!")
+mgr.Reflash()
+mgr.Keep("error")
+mgr.Regenerate()
+mgr.Save()</code></pre>
+
+
+            <h1 id="queue" class="text-white">Queue</h1>
+
+            <pre><code>type SendEmailJob struct {
+    To      string
+    Subject string
+}
+
+func (j *SendEmailJob) Handle() error { /* send email */ return nil }
+func (j *SendEmailJob) Failed(err error) { log.Printf("Failed: %v", err) }
+
+q := queue.NewManager(queue.NewSyncDriver())
+q.Dispatch(&SendEmailJob{To: "user@example.com", Subject: "Welcome"})</code></pre>
+
+
+            <h1 id="events" class="text-white">Events</h1>
+
+            <pre><code>dispatcher := events.NewDispatcher()
+
+dispatcher.Listen(UserCreated{}, func(event any) {
+    e := event.(UserCreated)
+    sendWelcomeEmail(e.User)
+})
+
+dispatcher.Dispatch(UserCreated{User: user})</code></pre>
+
+
+            <h1 id="mail" class="text-white">Mail</h1>
+
+            <pre><code>msg := mail.NewMailable().
+    From("noreply@example.com").
+    To("user@example.com").
+    Subject("Welcome!").
+    HTML("<h1>Hello!</h1>").
+    Attach("report.pdf", fileBytes)
+
+mailer.Send(msg)</code></pre>
+
+
+            <h1 id="notifications" class="text-white">Notifications</h1>
+
+            <pre><code>mgr := notifications.NewManager()
+mgr.RegisterChannel("mail", notifications.NewMailChannel(mailer))
+
+notification := &UserCreatedNotification{User: user}
+mgr.Send(notification, user, "mail")</code></pre>
+
+
+            <h1 id="broadcasting" class="text-white">Broadcasting</h1>
+
+            <pre><code>hub := broadcasting.NewHub()
+go hub.Run()
+
+broadcaster := broadcasting.NewWebSocketDriver(hub)
+broadcaster.Broadcast([]string{"notifications"}, "NewMessage", map[string]any{
+    "message": "Hello!",
+})</code></pre>
+
+
+            <h1 id="storage" class="text-white">Storage</h1>
+
+            <pre><code>fs := storage.NewLocalDriver("storage/app")
+
+fs.Put("file.txt", contents)
+reader, _ := fs.Get("file.txt")
+fs.Delete("file.txt")
+exists := fs.Exists("file.txt")
+url := fs.URL("file.txt")</code></pre>
+
+
+            <h1 id="logging" class="text-white">Logging</h1>
+
+            <pre><code>logger := logging.Setup(logging.Config{
+    Level:   "debug",
+    Channel: "daily",
+    Path:    "storage/logs",
+})
+
+logger.Info("Server started", "port", 8080)
+logger.Error("Database error", "err", err)</code></pre>
+
+
+            <h1 id="encryption" class="text-white">Encryption</h1>
+
+            <pre><code>encrypter, _ := encryption.NewEncrypter([]byte("secret-key-32-bytes-long!!!!!"))
+
+encrypted, _ := encrypter.Encrypt("sensitive data")
+decrypted, _ := encrypter.Decrypt(encrypted)</code></pre>
+
+
+            <h1 id="testing" class="text-white">Testing</h1>
+
+            <pre><code>func TestGetUsers(t *testing.T) {
+    tc := gowtesting.NewTestCase(t, router)
+
+    tc.Get("/api/users").
+        AssertStatus(200).
+        AssertJson(map[string]any{"data": []any{}})
+}
+
+func TestCreateUser(t *testing.T) {
+    tc := gowtesting.NewTestCase(t, router)
+
+    tc.Post("/api/users", map[string]any{
+        "name": "John", "email": "john@example.com",
+    }).
+        AssertStatus(201).
+        AssertDatabaseHas("users", map[string]any{"email": "john@example.com"})
+}</code></pre>
+
+            <h2>Available Assertions</h2>
+            <table>
+                <thead><tr><th>Assertion</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>AssertStatus(code)</code></td><td>HTTP status code</td></tr>
+                    <tr><td><code>AssertJson(data)</code></td><td>JSON response matches</td></tr>
+                    <tr><td><code>AssertJsonStructure(keys)</code></td><td>JSON has specified keys</td></tr>
+                    <tr><td><code>AssertHeader(key, value)</code></td><td>Response header</td></tr>
+                    <tr><td><code>AssertSee(text)</code></td><td>Response contains text</td></tr>
+                    <tr><td><code>AssertDatabaseHas(table, data)</code></td><td>Database has record</td></tr>
+                    <tr><td><code>AssertDatabaseCount(table, count)</code></td><td>Record count</td></tr>
+                </tbody>
+            </table>
+
+
+            <h1 id="artisan-cli" class="text-white">Artisan CLI</h1>
+
+            <table>
+                <thead><tr><th>Command</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>gow new myapp</code></td><td>Create new project</td></tr>
+                    <tr><td><code>gow serve</code></td><td>Start dev server</td></tr>
+                    <tr><td><code>gow migrate</code></td><td>Run migrations</td></tr>
+                    <tr><td><code>gow migrate:rollback</code></td><td>Rollback migrations</td></tr>
+                    <tr><td><code>gow db:seed</code></td><td>Run seeders</td></tr>
+                    <tr><td><code>gow make:controller</code></td><td>Create controller</td></tr>
+                    <tr><td><code>gow make:model</code></td><td>Create model</td></tr>
+                    <tr><td><code>gow make:migration</code></td><td>Create migration</td></tr>
+                    <tr><td><code>gow make:middleware</code></td><td>Create middleware</td></tr>
+                    <tr><td><code>gow make:job</code></td><td>Create job</td></tr>
+                    <tr><td><code>gow make:seeder</code></td><td>Create seeder</td></tr>
+                    <tr><td><code>gow make:request</code></td><td>Create form request</td></tr>
+                    <tr><td><code>gow cache:clear</code></td><td>Clear cache</td></tr>
+                    <tr><td><code>gow config:cache</code></td><td>Cache config</td></tr>
+                    <tr><td><code>gow key:generate</code></td><td>Generate APP_KEY</td></tr>
+                    <tr><td><code>gow queue:work</code></td><td>Start queue worker</td></tr>
+                    <tr><td><code>gow list</code></td><td>List all commands</td></tr>
+                </tbody>
+            </table>
+
+
+            <h1 id="scheduling" class="text-white">Scheduling</h1>
+
+            <pre><code>scheduler := console.NewScheduler()
+
+scheduler.EveryMinute("cache:clear")
+scheduler.Hourly("newsletter:send")
+scheduler.Cron("0 9 * * * *", "report:generate")
+scheduler.WithoutOverlapping("data:sync", 10*time.Minute)</code></pre>
+            <pre><code>gow schedule:run</code></pre>
+
+            <div class="mt-20 pt-8 border-t border-zinc-800 text-center text-sm text-zinc-500">
+                <p>&copy; {{ .Year }} GoW Framework. MIT License.</p>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    const sections = document.querySelectorAll('.content h1, .content h2, .content h3');
+
+    searchInput.addEventListener('input', function(e) {
+        const query = e.target.value.toLowerCase();
+        document.querySelectorAll('.content *').forEach(el => {
+            if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'P' || el.tagName === 'PRE' || el.tagName === 'TABLE') {
+                const text = el.textContent.toLowerCase();
+                el.style.display = text.includes(query) || query === '' ? '' : 'none';
+            }
+        });
+    });
+
+    // Active sidebar link
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+                const link = document.querySelector(`.sidebar a[href="#${entry.target.id}"]`);
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { threshold: 0.3 });
+
+    sections.forEach(section => {
+        if (section.id) observer.observe(section);
+    });
+    </script>
+
+</body>
+</html>
