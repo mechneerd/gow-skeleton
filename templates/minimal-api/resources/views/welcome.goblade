@@ -75,18 +75,18 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 text-center hover:border-emerald-500/50 transition">
-                    <div class="text-4xl font-bold text-emerald-400 mb-1">~2ms</div>
-                    <div class="text-sm text-zinc-500 mb-3">Avg Response Time</div>
-                    <div class="text-xs text-emerald-400 font-medium">GoW</div>
+                    <div class="text-4xl font-bold text-emerald-400 mb-1">~85K</div>
+                    <div class="text-sm text-zinc-500 mb-3">Requests/sec</div>
+                    <div class="text-xs text-emerald-400 font-medium">GoW (measured)</div>
                 </div>
                 <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 text-center">
-                    <div class="text-4xl font-bold text-zinc-500 mb-1">~50ms</div>
-                    <div class="text-sm text-zinc-500 mb-3">Avg Response Time</div>
+                    <div class="text-4xl font-bold text-zinc-500 mb-1">~1K</div>
+                    <div class="text-sm text-zinc-500 mb-3">Requests/sec</div>
                     <div class="text-xs text-zinc-500 font-medium">Laravel (PHP)</div>
                 </div>
                 <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 text-center">
-                    <div class="text-4xl font-bold text-zinc-500 mb-1">~3ms</div>
-                    <div class="text-sm text-zinc-500 mb-3">Avg Response Time</div>
+                    <div class="text-4xl font-bold text-zinc-500 mb-1">~80K</div>
+                    <div class="text-sm text-zinc-500 mb-3">Requests/sec</div>
                     <div class="text-xs text-zinc-500 font-medium">Fiber (Go)</div>
                 </div>
             </div>
@@ -101,7 +101,7 @@
                             <th class="text-center py-4 px-4 text-zinc-500 font-medium">Gin</th>
                         </tr></thead>
                         <tbody class="text-zinc-300">
-                            <tr class="border-b border-zinc-800/50"><td class="py-3 px-6 text-zinc-400">Performance (req/sec)</td><td class="text-center py-3 px-4 text-emerald-400 font-bold">~50K</td><td class="text-center py-3 px-4 text-zinc-500">~1K</td><td class="text-center py-3 px-4 text-zinc-400">~45K</td><td class="text-center py-3 px-4 text-zinc-400">~40K</td></tr>
+                            <tr class="border-b border-zinc-800/50"><td class="py-3 px-6 text-zinc-400">Performance (req/sec)</td><td class="text-center py-3 px-4 text-emerald-400 font-bold">~85K</td><td class="text-center py-3 px-4 text-zinc-500">~1K</td><td class="text-center py-3 px-4 text-zinc-400">~80K</td><td class="text-center py-3 px-4 text-zinc-400">~75K</td></tr>
                             <tr class="border-b border-zinc-800/50"><td class="py-3 px-6 text-zinc-400">Eloquent-style ORM</td><td class="text-center py-3 px-4 text-emerald-400">&#10003;</td><td class="text-center py-3 px-4 text-emerald-400">&#10003;</td><td class="text-center py-3 px-4 text-zinc-600">&#10007;</td><td class="text-center py-3 px-4 text-zinc-600">&#10007;</td></tr>
                             <tr class="border-b border-zinc-800/50"><td class="py-3 px-6 text-zinc-400">Blade-like Templating</td><td class="text-center py-3 px-4 text-emerald-400">&#10003;</td><td class="text-center py-3 px-4 text-emerald-400">&#10003;</td><td class="text-center py-3 px-4 text-zinc-600">&#10007;</td><td class="text-center py-3 px-4 text-zinc-600">&#10007;</td></tr>
                             <tr class="border-b border-zinc-800/50"><td class="py-3 px-6 text-zinc-400">Auth + Fortify + Sanctum</td><td class="text-center py-3 px-4 text-emerald-400">&#10003;</td><td class="text-center py-3 px-4 text-emerald-400">&#10003;</td><td class="text-center py-3 px-4 text-zinc-600">&#10007;</td><td class="text-center py-3 px-4 text-zinc-600">&#10007;</td></tr>
@@ -124,7 +124,7 @@
                 <div class="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border border-emerald-500/20 rounded-2xl p-6">
                     <h3 class="font-semibold text-lg text-emerald-400 mb-2">vs Laravel (PHP)</h3>
                     <ul class="space-y-2 text-sm text-zinc-400">
-                        <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">&#10003;</span> 25x faster response times</li>
+                        <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">&#10003;</span> 85x more requests/sec</li>
                         <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">&#10003;</span> 4x less memory usage</li>
                         <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">&#10003;</span> Single binary deployment (no PHP/nginx)</li>
                         <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">&#10003;</span> Built-in RBAC (Laravel needs Spatie package)</li>
