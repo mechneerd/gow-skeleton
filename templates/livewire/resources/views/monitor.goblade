@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .AppName }} — Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        zinc: { 950: '#09090b' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glass { backdrop-filter: blur(12px); background: rgba(24, 24, 27, 0.7); }
+        @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+        .stat-card { transition: all 0.3s ease; }
+        .stat-card:hover { transform: translateY(-2px); border-color: rgba(16, 185, 129, 0.3); }
+        .chart-container { position: relative; height: 200px; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white min-h-screen antialiased">
+
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="/" class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center font-bold text-sm">G</div>
+                    <span class="font-semibold text-lg">GoW</span>
+                </a>
+                <span class="text-zinc-600">/</span>
+                <span class="text-zinc-400 text-sm font-medium">Monitor</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                    <div class="w-2 h-2 bg-emerald-500 rounded-full pulse-dot"></div>
+                    <span class="text-xs font-medium text-emerald-400">Live</span>
+                </div>
+                <a href="/" class="text-sm text-zinc-400 hover:text-white transition">← Back to App</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold tracking-tight mb-2">
+                    <span class="gradient-text">Server Monitor</span>
+                </h1>
+                <p class="text-zinc-500">Real-time performance metrics for your GoW application.</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="stat-card bg-zinc-900/50 border border-zinc-800 rounded-2xl p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Requests</span>
+                        <span class="text-emerald-400 text-lg">⚡</span>
+                    </div>
+                    <div class="text-3xl font-bold text-white" id="total-requests">0</div>
+                    <div class="text-xs text-zinc-500 mt-1">since server start</div>
+                </div>
+                <div class="stat-card bg-zinc-900/50 border border-zinc-800 rounded-2xl p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Routines</span>
+                        <span class="text-blue-400 text-lg">🔄</span>
+                    </div>
+                    <div class="text-3xl font-bold text-white" id="go-routines">0</div>
+                    <div class="text-xs text-zinc-500 mt-1">active goroutines</div>
+                </div>
+                <div class="stat-card bg-zinc-900/50 border border-zinc-800 rounded-2xl p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Connections</span>
+                        <span class="text-purple-400 text-lg">🔗</span>
+                    </div>
+                    <div class="text-3xl font-bold text-white" id="open-conn">0</div>
+                    <div class="text-xs text-zinc-500 mt-1">open connections</div>
+                </div>
+                <div class="stat-card bg-zinc-900/50 border border-zinc-800 rounded-2xl p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-medium text-zinc-500 uppercase tracking-wider">Uptime</span>
+                        <span class="text-yellow-400 text-lg">⏱️</span>
+                    </div>
+                    <div class="text-3xl font-bold text-white" id="uptime">0s</div>
+                    <div class="text-xs text-zinc-500 mt-1">server uptime</div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Memory Usage -->
+                <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-white">Memory Usage</h3>
+                        <span class="text-xs text-zinc-500" id="memory-label">0 MB / 0 MB</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="memoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Response Time -->
+                <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-white">Response Time</h3>
+                        <span class="text-xs text-zinc-500" id="response-label">0ms avg</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="responseChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Info -->
+            <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6">
+                <h3 class="font-semibold text-white mb-4">System Information</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div>
+                        <div class="text-xs text-zinc-500 mb-1">Framework</div>
+                        <div class="text-sm font-medium text-white">GoW v1.0</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-zinc-500 mb-1">Go Version</div>
+                        <div class="text-sm font-medium text-white" id="go-version">go1.22</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-zinc-500 mb-1">Platform</div>
+                        <div class="text-sm font-medium text-white" id="platform">linux/amd64</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-zinc-500 mb-1">CPU Cores</div>
+                        <div class="text-sm font-medium text-white" id="cpu-cores">1</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-zinc-500 mb-1">Memory Alloc</div>
+                        <div class="text-sm font-medium text-emerald-400" id="mem-alloc">0 MB</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-zinc-500 mb-1">Memory System</div>
+                        <div class="text-sm font-medium text-blue-400" id="mem-sys">0 MB</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-zinc-500 mb-1">GC Cycles</div>
+                        <div class="text-sm font-medium text-purple-400" id="gc-cycles">0</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-zinc-500 mb-1">Last Updated</div>
+                        <div class="text-sm font-medium text-zinc-400" id="last-updated">--:--:--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Chart data storage
+        const memoryData = { labels: [], alloc: [], sys: [] };
+        const responseData = { labels: [], values: [] };
+        const MAX_DATA_POINTS = 30;
+
+        // Initialize charts
+        const memoryCtx = document.getElementById('memoryChart').getContext('2d');
+        const memoryChart = new Chart(memoryCtx, {
+            type: 'line',
+            data: {
+                labels: memoryData.labels,
+                datasets: [
+                    {
+                        label: 'Alloc',
+                        data: memoryData.alloc,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'Sys',
+                        data: memoryData.sys,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { display: false },
+                    y: {
+                        display: true,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#71717a', callback: v => v + ' MB' }
+                    }
+                }
+            }
+        });
+
+        const responseCtx = document.getElementById('responseChart').getContext('2d');
+        const responseChart = new Chart(responseCtx, {
+            type: 'line',
+            data: {
+                labels: responseData.labels,
+                datasets: [{
+                    label: 'Response Time',
+                    data: responseData.values,
+                    borderColor: '#8b5cf6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { display: false },
+                    y: {
+                        display: true,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#71717a', callback: v => v + 'ms' }
+                    }
+                }
+            }
+        });
+
+        // Format bytes to human readable
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        // Format uptime
+        function formatUptime(seconds) {
+            const d = Math.floor(seconds / 86400);
+            const h = Math.floor((seconds % 86400) / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = seconds % 60;
+            if (d > 0) return d + 'd ' + h + 'h';
+            if (h > 0) return h + 'h ' + m + 'm';
+            if (m > 0) return m + 'm ' + s + 's';
+            return s + 's';
+        }
+
+        // Fetch and update metrics
+        async function updateMetrics() {
+            try {
+                const res = await fetch('/monitor?format=json');
+                const data = await res.json();
+
+                // Update stats
+                document.getElementById('total-requests').textContent = data.total_requests.toLocaleString();
+                document.getElementById('go-routines').textContent = data.go_routines.toLocaleString();
+                document.getElementById('open-conn').textContent = data.open_connections.toLocaleString();
+                document.getElementById('uptime').textContent = formatUptime(parseUptime(data.uptime));
+                document.getElementById('memory-label').textContent = formatBytes(data.memory_alloc) + ' / ' + formatBytes(data.memory_sys);
+                document.getElementById('mem-alloc').textContent = formatBytes(data.memory_alloc);
+                document.getElementById('mem-sys').textContent = formatBytes(data.memory_sys);
+                document.getElementById('last-updated').textContent = new Date().toLocaleTimeString();
+
+                // Update charts
+                const now = new Date().toLocaleTimeString();
+                memoryData.labels.push(now);
+                memoryData.alloc.push((data.memory_alloc / 1024 / 1024).toFixed(1));
+                memoryData.sys.push((data.memory_sys / 1024 / 1024).toFixed(1));
+
+                responseData.labels.push(now);
+                responseData.values.push(data.response_time || 0);
+
+                if (memoryData.labels.length > MAX_DATA_POINTS) {
+                    memoryData.labels.shift();
+                    memoryData.alloc.shift();
+                    memoryData.sys.shift();
+                    responseData.labels.shift();
+                    responseData.values.shift();
+                }
+
+                memoryChart.update('none');
+                responseChart.update('none');
+            } catch (e) {
+                console.error('Failed to fetch metrics:', e);
+            }
+        }
+
+        function parseUptime(s) {
+            if (!s) return 0;
+            const parts = s.match(/(\d+)([dhms])/g);
+            if (!parts) return 0;
+            let total = 0;
+            parts.forEach(p => {
+                const val = parseInt(p);
+                if (p.endsWith('d')) total += val * 86400;
+                else if (p.endsWith('h')) total += val * 3600;
+                else if (p.endsWith('m')) total += val * 60;
+                else if (p.endsWith('s')) total += val;
+            });
+            return total;
+        }
+
+        // Initial load + auto-refresh
+        updateMetrics();
+        setInterval(updateMetrics, 3000);
+    </script>
+
+</body>
+</html>

@@ -1,7 +1,11 @@
 package routes
 
 import (
+	"encoding/json"
 	"net/http"
+	"runtime"
+	"sync"
+	"time"
 
 	"github.com/mechneerd/gow/routing"
 	"github.com/mechneerd/gow/view"
@@ -9,6 +13,14 @@ import (
 
 var router *routing.Router
 var viewEngine *view.Engine
+var counterValue int
+
+// Monitor stats
+var (
+	monitorStartTime = time.Now()
+	monitorTotalReqs int64
+	monitorMu        sync.RWMutex
+)
 
 func init() {
 	router = routing.NewRouter()
@@ -23,6 +35,43 @@ func init() {
 		if err != nil {
 			w.Header().Set("Content-Type", "text/html")
 			w.Write([]byte("<h1>Welcome to {{ .AppName }}</h1>"))
+			return nil
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.Write([]byte(html))
+		return nil
+	})
+
+	// Monitor page
+	router.Get("/monitor", func(w http.ResponseWriter, r *http.Request) error {
+		if r.URL.Query().Get("format") == "json" {
+			var m runtime.MemStats
+			runtime.ReadMemStats(&m)
+			monitorMu.RLock()
+			totalReqs := monitorTotalReqs
+			monitorMu.RUnlock()
+			uptime := time.Since(monitorStartTime).Round(time.Second)
+
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(map[string]any{
+				"memory_alloc":     m.Alloc,
+				"memory_sys":       m.Sys,
+				"go_routines":      runtime.NumGoroutine(),
+				"open_connections": 0,
+				"total_requests":   totalReqs,
+				"uptime":           uptime.String(),
+				"response_time":    0,
+				"timestamp":        time.Now().Unix(),
+			})
+			return nil
+		}
+
+		html, err := viewEngine.Make("monitor", map[string]any{
+			"AppName": "{{ .AppName }}",
+		})
+		if err != nil {
+			w.Header().Set("Content-Type", "text/html")
+			w.Write([]byte("<h1>Monitor</h1><p>Monitor page not found.</p>"))
 			return nil
 		}
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
